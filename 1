@@ -1,0 +1,480 @@
+import React, { useState, useEffect } from 'react';
+import { Play, Pause, Volume2, HardDrive, CreditCard, Database, ChevronRight, ChevronLeft, Zap, Radio } from 'lucide-react';
+
+const MagneticRecordingPresentation = () => {
+  const [currentSection, setCurrentSection] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [particlePositions, setParticlePositions] = useState([]);
+
+  useEffect(() => {
+    if (isAnimating && currentSection === 2) {
+      const interval = setInterval(() => {
+        setParticlePositions(prev => {
+          const newPositions = [...prev];
+          if (newPositions.length < 20) {
+            newPositions.push({
+              x: 0,
+              y: Math.random() * 100,
+              magnetized: false
+            });
+          }
+          return newPositions.map((p) => ({
+            ...p,
+            x: (p.x + 2) % 100,
+            magnetized: p.x > 30 && p.x < 70
+          }));
+        });
+      }, 50);
+      return () => clearInterval(interval);
+    }
+  }, [isAnimating, currentSection]);
+
+  const sections = [
+    {
+      title: "Въведение",
+      icon: <Radio className="w-8 h-8" />,
+      content: (
+        <div className="space-y-4">
+          <h2 className="text-3xl font-bold text-blue-600">Какво е магнитен запис?</h2>
+          <p className="text-lg">
+            Магнитният запис е метод за запазване на информация (звук, видео, данни) чрез използване на магнитни свойства на материалите.
+          </p>
+          
+          <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+            <h3 className="font-bold text-xl mb-2">Основният принцип</h3>
+            <p className="text-lg">
+              Представи си, че имаш хиляди малки магнитчета върху лента или диск. Като ги завъртиш в определена посока, те запомнят тази позиция. Така можеш да запишеш информация!
+            </p>
+          </div>
+
+          <div className="bg-green-50 p-4 rounded-lg mt-4">
+            <h3 className="font-bold text-xl mb-2">Обяснение на термини</h3>
+            <ul className="space-y-2 text-lg">
+              <li><strong>Магнитно поле:</strong> Невидима сила около магнитите</li>
+              <li><strong>Полярност:</strong> Посоката на магнитното поле (север или юг)</li>
+              <li><strong>Магнитен материал:</strong> Материал, който може да се намагнитва (желязо, кобалт)</li>
+            </ul>
+          </div>
+
+          <div className="flex justify-center mt-6">
+            <div className="relative w-64 h-64 bg-gray-100 rounded-lg border-2 border-gray-300 flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-6xl mb-4">🧲</div>
+                <p className="text-xl font-semibold">Магнитна лента</p>
+                <p className="text-sm text-gray-600 mt-2">с хиляди микроскопични магнитни частици</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "История",
+      icon: <Radio className="w-8 h-8" />,
+      content: (
+        <div className="space-y-4">
+          <h2 className="text-3xl font-bold text-purple-600">Пътуване във времето</h2>
+          
+          <div className="relative">
+            <div className="absolute left-8 top-0 bottom-0 w-1 bg-purple-300"></div>
+            
+            <div className="space-y-6">
+              <div className="relative pl-20 pb-6">
+                <div className="absolute left-4 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">1</div>
+                <div className="bg-white p-4 rounded-lg shadow-md border-2 border-purple-200">
+                  <h3 className="font-bold text-xl text-purple-600">1898 г. - Началото</h3>
+                  <p className="mt-2"><strong>Валдемар Поулсен</strong> създава първия магнитен рекордер - Телеграфон</p>
+                  <p className="text-sm text-gray-600 mt-1">Записвал звук върху стоманена жица!</p>
+                </div>
+              </div>
+
+              <div className="relative pl-20 pb-6">
+                <div className="absolute left-4 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">2</div>
+                <div className="bg-white p-4 rounded-lg shadow-md border-2 border-purple-200">
+                  <h3 className="font-bold text-xl text-purple-600">1928 г. - Магнитна лента</h3>
+                  <p className="mt-2"><strong>Фриц Пфлоймер</strong> изобретява магнитната лента - пластмасова лента, покрита с желязо</p>
+                </div>
+              </div>
+
+              <div className="relative pl-20 pb-6">
+                <div className="absolute left-4 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">3</div>
+                <div className="bg-white p-4 rounded-lg shadow-md border-2 border-purple-200">
+                  <h3 className="font-bold text-xl text-purple-600">1935 г. - Magnetophone</h3>
+                  <p className="mt-2">Компаниите AEG и BASF създават професионални рекордери</p>
+                </div>
+              </div>
+
+              <div className="relative pl-20 pb-6">
+                <div className="absolute left-4 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">4</div>
+                <div className="bg-white p-4 rounded-lg shadow-md border-2 border-purple-200">
+                  <h3 className="font-bold text-xl text-purple-600">1945-1950 г. - Световно разпространение</h3>
+                  <p className="mt-2">След войната технологията се разпространява по света</p>
+                </div>
+              </div>
+
+              <div className="relative pl-20">
+                <div className="absolute left-4 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold">5</div>
+                <div className="bg-white p-4 rounded-lg shadow-md border-2 border-purple-200">
+                  <h3 className="font-bold text-xl text-purple-600">1960-2000 г. - Златна ера</h3>
+                  <p className="mt-2">Касети, видеокасети, дискети, твърди дискове - магнитният запис навсякъде!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500 mt-6">
+            <p className="text-lg"><strong>Интересен факт:</strong> Най-старият запазен магнитен запис е от 1900 г. - гласът на император Франц Йозеф I от Австрия!</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "Как работи",
+      icon: <Zap className="w-8 h-8" />,
+      content: (
+        <div className="space-y-4">
+          <h2 className="text-3xl font-bold text-green-600">Как работи?</h2>
+          
+          <div className="bg-green-50 p-4 rounded-lg border-2 border-green-300">
+            <h3 className="font-bold text-xl mb-3">Стъпка 1: Подготовка</h3>
+            <p className="text-lg mb-2">
+              Магнитната лента е направена от пластмаса, покрита с милиони частици от желязо оксид или кобалт.
+            </p>
+            <p className="text-gray-700">Всяка частица е като малък магнит, който може да се завърти.</p>
+          </div>
+
+          <div className="bg-blue-50 p-4 rounded-lg border-2 border-blue-300">
+            <h3 className="font-bold text-xl mb-3">Стъпка 2: ЗАПИС</h3>
+            <div className="space-y-3">
+              <p className="text-lg">
+                Записващата глава (електромагнит) създава магнитно поле, когато минава ток.
+              </p>
+              <div className="bg-white p-3 rounded border-2 border-blue-200">
+                <p className="font-semibold text-blue-700">Силен звук → Силен ток → Частиците се завъртат много</p>
+                <p className="font-semibold text-blue-700">Слаб звук → Слаб ток → Частиците се завъртат малко</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-orange-50 p-4 rounded-lg border-2 border-orange-300">
+            <h3 className="font-bold text-xl mb-3">Стъпка 3: ЧЕТЕНЕ</h3>
+            <p className="text-lg mb-2">
+              Четящата глава усеща промените в магнитното поле и ги превръща обратно в звук!
+            </p>
+          </div>
+
+          <div className="mt-6 bg-white p-6 rounded-lg border-2 border-gray-300">
+            <h3 className="font-bold text-xl mb-4 text-center">Виж анимацията</h3>
+            <button 
+              onClick={() => {
+                setIsAnimating(!isAnimating);
+                if (!isAnimating) setParticlePositions([]);
+              }}
+              className="w-full mb-4 bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2"
+            >
+              {isAnimating ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+              {isAnimating ? 'Спри анимацията' : 'Пусни анимацията'}
+            </button>
+            
+            <div className="relative h-40 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 rounded-lg border-2 border-gray-400 overflow-hidden">
+              <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-16 h-20 bg-blue-500 rounded-r-lg flex items-center justify-center">
+                <Zap className="w-8 h-8 text-yellow-300" />
+              </div>
+              <div className="absolute left-16 top-0 h-full flex items-center">
+                <div className="text-sm font-semibold text-blue-700">Записваща глава</div>
+              </div>
+              
+              {particlePositions.map((particle, i) => (
+                <div
+                  key={i}
+                  className="absolute w-3 h-6 transition-all duration-100"
+                  style={{
+                    left: `${particle.x}%`,
+                    top: `${particle.y}%`,
+                    transform: particle.magnetized ? 'rotate(0deg)' : 'rotate(90deg)',
+                    backgroundColor: particle.magnetized ? '#ef4444' : '#9ca3af'
+                  }}
+                />
+              ))}
+              
+              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-center">
+                <div className="text-xs font-semibold bg-white px-3 py-1 rounded shadow">
+                  {isAnimating ? 'Магнитна лента се движи' : 'Кликни за да видиш намагнитяването'}
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-6 bg-gray-400"></div>
+                <span>Ненамагнитена</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-6 bg-red-500"></div>
+                <span>Намагнитена</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-500 mt-6">
+            <h3 className="font-bold text-lg mb-2">Термини</h3>
+            <ul className="space-y-2">
+              <li><strong>Електромагнит:</strong> Магнит, който се включва с електричество</li>
+              <li><strong>Желязо оксид:</strong> Ръжда с магнитни свойства</li>
+              <li><strong>Глава:</strong> Частта, която записва или чете</li>
+            </ul>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "Видове",
+      icon: <Database className="w-8 h-8" />,
+      content: (
+        <div className="space-y-4">
+          <h2 className="text-3xl font-bold text-red-600">Видове магнитен запис</h2>
+          
+          <div className="grid gap-4">
+            <div className="bg-white p-5 rounded-lg shadow-lg border-l-4 border-purple-500">
+              <div className="flex items-center gap-3 mb-3">
+                <Volume2 className="w-10 h-10 text-purple-500" />
+                <h3 className="font-bold text-2xl">1. Магнитна лента</h3>
+              </div>
+              <p className="text-lg mb-2"><strong>Как изглежда:</strong> Дълга тънка лента в касета</p>
+              <p className="mb-2"><strong>Примери:</strong></p>
+              <ul className="list-disc list-inside space-y-1 ml-4 text-gray-700">
+                <li>Аудио касети - за музика</li>
+                <li>VHS видеокасети - за филми</li>
+                <li>Компютърни ленти - за архивиране</li>
+              </ul>
+              <div className="bg-purple-50 p-3 rounded mt-3">
+                <p><strong>Предимства:</strong> Евтина, огромен капацитет</p>
+                <p><strong>Недостатъци:</strong> Бавна</p>
+              </div>
+            </div>
+
+            <div className="bg-white p-5 rounded-lg shadow-lg border-l-4 border-blue-500">
+              <div className="flex items-center gap-3 mb-3">
+                <HardDrive className="w-10 h-10 text-blue-500" />
+                <h3 className="font-bold text-2xl">2. Магнитен диск</h3>
+              </div>
+              <p className="text-lg mb-2"><strong>Как изглежда:</strong> Кръгъл диск, който се върти бързо</p>
+              <p className="mb-2"><strong>Примери:</strong></p>
+              <ul className="list-disc list-inside space-y-1 ml-4 text-gray-700">
+                <li>Твърд диск (HDD) - в компютрите</li>
+                <li>Дискета - старите гъвкави дискове</li>
+              </ul>
+              <div className="bg-blue-50 p-3 rounded mt-3">
+                <p className="mb-2"><strong>Как работи твърдият диск:</strong></p>
+                <p className="text-gray-700">Дисковете се въртят с 7200 оборота в минута! Главата намира информация за милисекунди.</p>
+                <p className="mt-2"><strong>Предимства:</strong> Бърз достъп, надежден</p>
+              </div>
+            </div>
+
+            <div className="bg-white p-5 rounded-lg shadow-lg border-l-4 border-green-500">
+              <div className="flex items-center gap-3 mb-3">
+                <CreditCard className="w-10 h-10 text-green-500" />
+                <h3 className="font-bold text-2xl">3. Магнитна ивица</h3>
+              </div>
+              <p className="text-lg mb-2"><strong>Как изглежда:</strong> Черна ивица отзад на картите</p>
+              <p className="mb-2"><strong>Примери:</strong></p>
+              <ul className="list-disc list-inside space-y-1 ml-4 text-gray-700">
+                <li>Банкови карти</li>
+                <li>Карти за хотелска стая</li>
+                <li>Транспортни карти</li>
+              </ul>
+              <div className="bg-green-50 p-3 rounded mt-3">
+                <p className="text-gray-700">Тази ивица съдържа само няколко числа или букви.</p>
+                <p className="mt-2"><strong>Внимание:</strong> Силни магнити могат да изтрият информацията!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    },
+    {
+      title: "Приложения днес",
+      icon: <HardDrive className="w-8 h-8" />,
+      content: (
+        <div className="space-y-4">
+          <h2 className="text-3xl font-bold text-indigo-600">Къде се използва днес?</h2>
+          
+          <div className="bg-indigo-50 p-4 rounded-lg border-2 border-indigo-300 mb-4">
+            <p className="text-lg">
+              Въпреки новите технологии, магнитният запис все още е навсякъде!
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <div className="bg-white p-5 rounded-lg shadow-md border-l-4 border-blue-500">
+              <h3 className="font-bold text-xl flex items-center gap-2 mb-3">
+                <HardDrive className="w-6 h-6 text-blue-500" />
+                1. Компютърни твърди дискове
+              </h3>
+              <p className="text-gray-700 mb-2">
+                Над 300,000 магнитни пътечки! Съвременните HDD съхраняват до 20 TB данни.
+              </p>
+              <p className="text-sm bg-blue-50 p-2 rounded">
+                Използва се в: Компютри, сървъри, игрални конзоли
+              </p>
+            </div>
+
+            <div className="bg-white p-5 rounded-lg shadow-md border-l-4 border-green-500">
+              <h3 className="font-bold text-xl flex items-center gap-2 mb-3">
+                <Database className="w-6 h-6 text-green-500" />
+                2. Архивиране на данни
+              </h3>
+              <p className="text-gray-700 mb-2">
+                Големите компании използват магнитни ленти за дългосрочно съхранение! Една LTO лента може да съхрани до 45 TB.
+              </p>
+              <ul className="list-disc list-inside text-sm text-gray-700 ml-4">
+                <li>По-евтини за огромни количества данни</li>
+                <li>Издържат 30+ години</li>
+                <li>Защитени от вируси</li>
+              </ul>
+            </div>
+
+            <div className="bg-white p-5 rounded-lg shadow-md border-l-4 border-purple-500">
+              <h3 className="font-bold text-xl flex items-center gap-2 mb-3">
+                <CreditCard className="w-6 h-6 text-purple-500" />
+                3. Банкови карти
+              </h3>
+              <p className="text-gray-700 mb-2">
+                Магнитната ивица съдържа:
+              </p>
+              <ul className="list-disc list-inside text-gray-700 ml-4 mb-2">
+                <li>Номер на картата</li>
+                <li>Име на притежателя</li>
+                <li>Дата на валидност</li>
+              </ul>
+            </div>
+
+            <div className="bg-white p-5 rounded-lg shadow-md border-l-4 border-orange-500">
+              <h3 className="font-bold text-xl flex items-center gap-2 mb-3">
+                <Volume2 className="w-6 h-6 text-orange-500" />
+                4. Професионално аудио
+              </h3>
+              <p className="text-gray-700">
+                Някои студиа все още използват магнитни ленти за уникален топъл звук!
+              </p>
+            </div>
+
+            <div className="bg-white p-5 rounded-lg shadow-md border-l-4 border-red-500">
+              <h3 className="font-bold text-xl flex items-center gap-2 mb-3">
+                <Radio className="w-6 h-6 text-red-500" />
+                5. Научни изследвания
+              </h3>
+              <p className="text-gray-700">
+                Използва се за данни от:
+              </p>
+              <ul className="list-disc list-inside text-gray-700 ml-4">
+                <li>Космически мисии и сателити</li>
+                <li>Медицински изследвания</li>
+                <li>Геоложки проучвания</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-r from-yellow-50 to-orange-50 p-5 rounded-lg border-2 border-yellow-400 mt-6">
+            <h3 className="font-bold text-xl mb-3 text-orange-700">Бъдещето</h3>
+            <p className="text-gray-800 mb-2">
+              Учените работят по нови видове:
+            </p>
+            <ul className="list-disc list-inside text-gray-800 ml-4 space-y-1">
+              <li>HAMR технология - загрява диска с лазер</li>
+              <li>MAMR технология - използва микровълни</li>
+              <li>Цел: 50-100 TB дискове до 2030 г.!</li>
+            </ul>
+          </div>
+        </div>
+      )
+    }
+  ];
+
+  const nextSection = () => {
+    if (currentSection < sections.length - 1) {
+      setCurrentSection(currentSection + 1);
+      setIsAnimating(false);
+    }
+  };
+
+  const prevSection = () => {
+    if (currentSection > 0) {
+      setCurrentSection(currentSection - 1);
+      setIsAnimating(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 p-6">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white">
+            <h1 className="text-4xl font-bold text-center mb-2">Магнитен Запис</h1>
+            <p className="text-center text-lg">Интерактивна презентация по физика</p>
+          </div>
+
+          <div className="p-8">
+            <div className="flex items-center gap-3 mb-6 pb-4 border-b-2 border-gray-200">
+              {sections[currentSection].icon}
+              <h2 className="text-2xl font-bold text-gray-800">{sections[currentSection].title}</h2>
+            </div>
+
+            <div className="min-h-96">
+              {sections[currentSection].content}
+            </div>
+
+            <div className="flex items-center justify-between mt-8 pt-6 border-t-2 border-gray-200">
+              <button
+                onClick={prevSection}
+                disabled={currentSection === 0}
+                className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition ${
+                  currentSection === 0
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-blue-500 hover:bg-blue-600 text-white'
+                }`}
+              >
+                <ChevronLeft className="w-5 h-5" />
+                Назад
+              </button>
+
+              <div className="flex gap-2">
+                {sections.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      setCurrentSection(index);
+                      setIsAnimating(false);
+                    }}
+                    className={`w-3 h-3 rounded-full transition ${
+                      index === currentSection ? 'bg-blue-600 w-8' : 'bg-gray-300'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={nextSection}
+                disabled={currentSection === sections.length - 1}
+                className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition ${
+                  currentSection === sections.length - 1
+                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-blue-500 hover:bg-blue-600 text-white'
+                }`}
+              >
+                Напред
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="text-center mt-4 text-sm text-gray-500">
+              Раздел {currentSection + 1} от {sections.length}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MagneticRecordingPresentation;
